@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import apiKey from "key"
+import apiKey from "./apiKey"
 const MovieApi = () => {
   
   const [ movieName, setMovieName ] = useState([])
