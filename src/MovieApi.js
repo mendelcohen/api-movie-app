@@ -1,11 +1,14 @@
 import React, {useState} from 'react'
 import apiKey from "./apiKey"
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 const MovieApi = () => {
   const [ name, setName ] = useState()
   const [ movieName, setMovieName ] = useState([])
   const [ movieData, setMovieData ] = useState([])
-  console.log(movieData)
+  const [ movieLikes, setMovieLikes ] = useState(0)
+  const [ movieDislikes, setMovieDislikes ] = useState(0)
+
   const searchTitle = (e) => {
     e.preventDefault()
     fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?s=${name}&p=1`, {
@@ -53,6 +56,14 @@ const MovieApi = () => {
     setName(value)
   }
 
+  function increment() {
+    setMovieLikes(prevMovieLikes => prevMovieLikes + 1)
+  }
+
+  function decrement() {
+    setMovieDislikes(prevMovieDislikes => prevMovieDislikes + 1)
+  }
+
   return (
     <div>
       <h1>New Project</h1>
@@ -83,6 +94,12 @@ const MovieApi = () => {
          <p>Plot: {movieData.Plot}</p>
          <p>Director: {movieData.Director}</p>
          <p>Release Year: {movieData.Year} </p>
+         <div className="like" onClick={() => increment()}>
+           <FaThumbsUp className="like-icon"/><span>{movieLikes}</span>
+         </div>
+         <div className="like" onClick={() => decrement()}>
+           <FaThumbsDown className="like-icon"/><span>{movieDislikes}</span>
+         </div>
        </div>
       ) : (
         <div></div>
