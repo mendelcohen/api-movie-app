@@ -4,7 +4,8 @@ import apiKey from "./apiKey"
 const MovieApi = () => {
   const [ name, setName ] = useState()
   const [ movieName, setMovieName ] = useState([])
-
+  const [ movieData, setMovieData ] = useState([])
+  console.log(movieData)
   const searchTitle = (e) => {
     e.preventDefault()
     fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?s=${name}&p=1`, {
@@ -39,6 +40,8 @@ const MovieApi = () => {
       .then(response => response.json())
       .then(response => {
 	    console.log(response);
+      setMovieData(response)
+      
       })
      .catch(err => {
 	     console.error(err);
@@ -73,6 +76,19 @@ const MovieApi = () => {
         </div>
       ))
       }</h4>
+      {movieData.Title ? (
+         <div>
+         <p>Title: {movieData.Title}</p>
+         <p>Genre: {movieData.Genre}</p>
+         <p>Plot: {movieData.Plot}</p>
+         <p>Director: {movieData.Director}</p>
+         <p>Release Year: {movieData.Year} </p>
+       </div>
+      ) : (
+        <div></div>
+      )
+     
+      }
     </div>
   )
 }
