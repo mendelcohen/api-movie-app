@@ -1,14 +1,13 @@
 import React, {useState} from 'react'
 import apiKey from "./apiKey"
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+
+import Movie from "./Movie"
 
 const MovieApi = () => {
-  const [ name, setName ] = useState()
+  const [ name, setName ] = useState("")
   const [ movieName, setMovieName ] = useState([])
-  const [ movieData, setMovieData ] = useState([])
-  const [ movieLikes, setMovieLikes ] = useState(0)
-  const [ movieDislikes, setMovieDislikes ] = useState(0)
-
+  // const [ movieData, setMovieData ] = useState([])
+  
   const searchTitle = (e) => {
     e.preventDefault()
     fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?s=${name}&p=1`, {
@@ -32,37 +31,31 @@ const MovieApi = () => {
       });
   }
   
-  const searchMovie = (movie) => {
-    fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?i=${movie.imdbID}`, {
-	    "method": "GET",
-	    "headers": {
-	   	  "x-rapidapi-key": apiKey,
-		    "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
-	    }
-    })
-      .then(response => response.json())
-      .then(response => {
-	    console.log(response);
-      setMovieData(response)
+  // const searchMovie = (movie) => {
+  //   fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?i=${movie.imdbID}`, {
+	//     "method": "GET",
+	//     "headers": {
+	//    	  "x-rapidapi-key": apiKey,
+	// 	    "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
+	//     }
+  //   })
+  //     .then(response => response.json())
+  //     .then(response => {
+	//     console.log(response);
+  //     setMovieData(response)
       
-      })
-     .catch(err => {
-	     console.error(err);
-      });
-  }
+  //     })
+  //    .catch(err => {
+	//      console.error(err);
+  //     });
+  // }
 
   function handleChange(e) {
     const {value} = e.target
     setName(value)
   }
 
-  function increment() {
-    setMovieLikes(prevMovieLikes => prevMovieLikes + 1)
-  }
-
-  function decrement() {
-    setMovieDislikes(prevMovieDislikes => prevMovieDislikes + 1)
-  }
+  
 
   return (
     <div>
@@ -80,32 +73,11 @@ const MovieApi = () => {
       
       </form>
       <h4>{
-      movieName.map(movie => (
-        <div key={movie.imdbID}>
-          <button onClick={() => searchMovie(movie)}>Movie: {movie.Title}, {movie.Year}</button>
-          
-        </div>
-      ))
+        movieName.map(movie => (
+          <Movie  movie={movie} key={movie.imdbID}/>
+        ))
       }</h4>
-      {movieData.Title ? (
-         <div>
-         <p>Title: {movieData.Title}</p>
-         <p>Genre: {movieData.Genre}</p>
-         <p>Plot: {movieData.Plot}</p>
-         <p>Director: {movieData.Director}</p>
-         <p>Release Year: {movieData.Year} </p>
-         <div className="like" onClick={() => increment()}>
-           <FaThumbsUp className="like-icon"/><span>{movieLikes}</span>
-         </div>
-         <div className="like" onClick={() => decrement()}>
-           <FaThumbsDown className="like-icon"/><span>{movieDislikes}</span>
-         </div>
-       </div>
-      ) : (
-        <div></div>
-      )
      
-      }
     </div>
   )
 }
