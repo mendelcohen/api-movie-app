@@ -1,13 +1,15 @@
 import React, {useState} from 'react'
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import apiKey from "./apiKey"
+
   function Movie({movie}) {
 
     const [ movieLikes, setMovieLikes ] = useState(0)
     const [ movieDislikes, setMovieDislikes ] = useState(0)
+
     const [ show, setShow ] = useState(false)
-    
     const [ movieData, setMovieData ] = useState([])
+   
 
     const handleClick = () => {
       show === false ? (
@@ -23,6 +25,19 @@ import apiKey from "./apiKey"
 	        console.log(response);
           setMovieData(response)
           setShow(!show)
+  
+          parseInt(localStorage.getItem(`${movie.imdbID} likes`)) > 0 ? (
+            setMovieLikes(parseInt(localStorage.getItem(`${movie.imdbID} likes`)))
+          ) : (
+            localStorage.setItem(`${movie.imdbID} likes`, 0)
+          )
+
+          parseInt(localStorage.getItem(`${movie.imdbID} dislikes`)) > 0 ? (
+            setMovieDislikes(parseInt(localStorage.getItem(`${movie.imdbID} dislikes`)))
+          ) : (
+            localStorage.setItem(`${movie.imdbID} dislikes`, 0)
+          )
+          
         })
        .catch(err => {
 	       console.error(err);
@@ -31,13 +46,19 @@ import apiKey from "./apiKey"
         setShow(!show)
       ) 
     } 
-
+    
     function increment() {
-      setMovieLikes(prevMovieLikes => prevMovieLikes + 1)
+      let likes = parseInt(localStorage.getItem(`${movie.imdbID} likes`))
+      likes++
+      localStorage.setItem(`${movie.imdbID} likes`, likes)
+      setMovieLikes(likes)
     }
 
     function decrement() {
-      setMovieDislikes(prevMovieDislikes => prevMovieDislikes + 1)
+      let dislikes = parseInt(localStorage.getItem(`${movie.imdbID} dislikes`))
+      dislikes++
+      localStorage.setItem(`${movie.imdbID} dislikes`, dislikes)
+      setMovieDislikes(dislikes)
     }
 
     return (
@@ -51,12 +72,14 @@ import apiKey from "./apiKey"
             <p>Plot: {movieData.Plot}</p>
             <p>Director: {movieData.Director}</p>
             <p>Release Year: {movieData.Year} </p>
-            <div className="like" onClick={() => increment()}>
-              <FaThumbsUp className="like-icon"/><span>{movieLikes}</span>
-            </div>
-            <div className="like" onClick={() => decrement()}>
-              <FaThumbsDown className="like-icon"/><span>{movieDislikes}</span>
-            </div>
+              <div className="like" onClick={increment}>
+                <FaThumbsUp className="like-icon"/><span>{movieLikes}</span>
+              </div>
+            
+              <div className="like" onClick={decrement}>
+                <FaThumbsDown className="like-icon"/><span>{movieDislikes}</span>
+              </div>
+            
            </div>
         )
       }
