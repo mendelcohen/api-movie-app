@@ -4,12 +4,12 @@ import apiKey from "./apiKey"
 
   function Movie({movie}) {
 
+    const [ show, setShow ] = useState(false)
+    const [ movieData, setMovieData ] = useState([])
+
     const [ movieLikes, setMovieLikes ] = useState(0)
     const [ movieDislikes, setMovieDislikes ] = useState(0)
 
-    const [ show, setShow ] = useState(false)
-    const [ movieData, setMovieData ] = useState([])
-   
 
     const handleClick = () => {
       show === false ? (
@@ -25,19 +25,13 @@ import apiKey from "./apiKey"
 	        console.log(response);
           setMovieData(response)
           setShow(!show)
-  
-          parseInt(localStorage.getItem(`${movie.imdbID} likes`)) > 0 ? (
-            setMovieLikes(parseInt(localStorage.getItem(`${movie.imdbID} likes`)))
-          ) : (
-            localStorage.setItem(`${movie.imdbID} likes`, 0)
-          )
 
-          parseInt(localStorage.getItem(`${movie.imdbID} dislikes`)) > 0 ? (
-            setMovieDislikes(parseInt(localStorage.getItem(`${movie.imdbID} dislikes`)))
-          ) : (
-            localStorage.setItem(`${movie.imdbID} dislikes`, 0)
-          )
-          
+          const item = localStorage.getItem(movie.imdbID)
+          if (item) {
+            const json = JSON.parse(item)
+            setMovieLikes(json.likes)
+            setMovieDislikes(json.dislikes)
+          } 
         })
        .catch(err => {
 	       console.error(err);
@@ -48,25 +42,38 @@ import apiKey from "./apiKey"
     } 
     
     function increment() {
-      let likes = parseInt(localStorage.getItem(`${movie.imdbID} likes`))
-      likes++
-      localStorage.setItem(`${movie.imdbID} likes`, likes)
-      setMovieLikes(likes)
+      const item = localStorage.getItem(movie.imdbID)
+      let json = null
+      if (item) {
+        json = JSON.parse(item)
+        json.likes += 1
+      } else {
+        json = {title: movie.Title, likes: 1, dislikes: 0}
+      }
+      localStorage.setItem(movie.imdbID, JSON.stringify(json))
+      setMovieLikes(json.likes)
     }
 
     function decrement() {
-      let dislikes = parseInt(localStorage.getItem(`${movie.imdbID} dislikes`))
-      dislikes++
-      localStorage.setItem(`${movie.imdbID} dislikes`, dislikes)
-      setMovieDislikes(dislikes)
+      const item = localStorage.getItem(movie.imdbID)
+      let json = null
+      if (item) {
+        json = JSON.parse(item)
+        json.dislikes += 1
+      } else {
+        json = {title: movie.Title, likes: 0, dislikes: 1}
+      }
+      localStorage.setItem(movie.imdbID, JSON.stringify(json))
+      setMovieDislikes(json.dislikes)
     }
 
     return (
       <div>
-        <button onClick={handleClick}>Movie: {movie.Title}, {movie.Year}</button>
+        <div className="card" onClick={handleClick}>Movie: {movie.Title}, {movie.Year}</div>
 
         {show && (
           <div>
+            
             <p>Title: {movieData.Title}</p>
             <p>Genre: {movieData.Genre}</p>
             <p>Plot: {movieData.Plot}</p>
@@ -79,7 +86,7 @@ import apiKey from "./apiKey"
               <div className="like" onClick={decrement}>
                 <FaThumbsDown className="like-icon"/><span>{movieDislikes}</span>
               </div>
-            
+              
            </div>
         )
       }
@@ -90,44 +97,3 @@ import apiKey from "./apiKey"
   
 
 export default Movie
-// {movieData.Title ? (
-//   <div>
-//   <p>Title: {movieData.Title}</p>
-//   <p>Genre: {movieData.Genre}</p>
-//   <p>Plot: {movieData.Plot}</p>
-//   <p>Director: {movieData.Director}</p>
-//   <p>Release Year: {movieData.Year} </p>
-//   <div className="like" onClick={() => increment()}>
-//     <FaThumbsUp className="like-icon"/><span>{movieLikes}</span>
-//   </div>
-//   <div className="like" onClick={() => decrement()}>
-//     <FaThumbsDown className="like-icon"/><span>{movieDislikes}</span>
-//   </div>
-// </div>
-// ) : (
-//  <div></div>
-// )
-
-// }
-
-
-// {show && (
-//   <div>
-//     <p>Title: {movie.Title}</p>
-//     <p>Genre: {movie.Genre}</p>
-//     <p>Plot: {movie.Plot}</p>
-//     <p>Director: {movie.Director}</p>
-//     <p>Release Year: {movie.Year} </p>
-//     <div className="like" onClick={increment}>
-//       <FaThumbsUp className="like-icon"/><span>{movieLikes}</span>
-//     </div>
-//     <div className="like" onClick={decrement}>
-//       <FaThumbsDown className="like-icon"/><span>{movieDislikes}</span>
-//     </div>
-//   </div>
-// )}
-
-// movieData.Title ? 
-
-// ) : (
-//   <div></div>
