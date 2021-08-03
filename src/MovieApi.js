@@ -1,30 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa'
 import apiKey from "./apiKey"
 
 import Movie from "./Movie"
 
-const MovieApi = () => {
-  const [ name, setName ] = useState("")
+const MovieApi = (props) => {
+  const [ searchName, setSearchName ] = useState("")
   const [ movieName, setMovieName ] = useState([])
-  const [ storage, setStorage ] = useState([])
-  
-  
-  useEffect(() => {
-    let storageArray = []
-    let localStorageArray = Object.values(localStorage)
-    storageArray = localStorageArray.map(item => {
-      const json = JSON.parse(item)
-      return json
-  })
-    
-    console.log(storageArray)
-    setStorage(storageArray)
-  }, [])
-  
+  // const [ error, setError ] = useState("")
+
   const searchTitle = (e) => {
     e.preventDefault()
-    fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?s=${name}&p=1`, {
+    fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?s=${searchName}&p=1`, {
       "method": "GET",
       "headers": {
         "x-rapidapi-key": apiKey,
@@ -34,22 +21,23 @@ const MovieApi = () => {
       .then(response => response.json())
       .then(response => {
         console.log(response);
-        var data = response.Search;
-        setMovieName(data)
+        const data = response.Search;
+        data !== undefined ? setMovieName(data) : setMovieName("No Results Found")
       })
       .catch(err => {
         console.error(err);
+        
       });
     }
 
   function handleChange(e) {
     const {value} = e.target
-    setName(value)
+    setSearchName(value)
   }
   
   return (
     <div>
-     
+      
       <h1 style={{textAlign: "center"}}>Movie Ratings</h1>
       <table className="table">
       <thead>
@@ -63,45 +51,53 @@ const MovieApi = () => {
         </thead>
         <tbody>
           {
-           storage.map(item => (
-            <tr key={item.title}>
-              <td className="movie">{item.title}</td>
-              <td className="rating">{item.likes}</td>
-              <td className="rating">{item.dislikes}</td>
+           Object.keys(props.db).map(key => (
+            <tr key={key}>
+              <td className="movie">{props.db[key].title}</td>
+              <td className="rating">{props.db[key].likes}</td>
+              <td className="rating">{props.db[key].dislikes}</td>
             </tr>
            ))
-          
           }
         </tbody>
       </table>
 
-      <h1 style={{textAlign: "center"}}>Rate Your Movies Here</h1>
+      <h2 style={{textAlign: "center"}}>Search for a movie here and rate it</h2>
       
       <form style={{textAlign: "center"}} onSubmit={searchTitle}>
       
       <input 
+        style={{fontSize: "large", marginRight: "0.2cm"}}
         type="text"
-        name="name"
+        name="searchName"
         placeholder="Search Movie Title"
-        value={name}
+        value={searchName}
         onChange={handleChange}
         />
-        <button >Search</button>
+        <button style={{fontSize: "large"}}>Search</button>
         
       </form>
-      {/* <h4 style={{display: "grid",  gridTemplateColumns: "auto auto auto auto", textAlign: "center"}}> */}
-        {
-         movieName === undefined ? (<p style={{textAlign: "center"}}>"No Results"</p>) : (
-          <h4 style={{display: "grid",  gridTemplateColumns: "auto auto auto auto", textAlign: "center"}}>
+      <br/>
+   
+      {
+       movieName === "No Results Found" ? 
+         (
+          <div style={{textAlign: "center"}}>{movieName}</div>
+         ) : (
+          <div style={{display: "grid", gridTemplateColumns: "auto auto auto auto"}}>
             {
-         movieName.map(movie => (
-          <Movie  movie={movie} key={movie.imdbID}/>
-         ))
-}
-         </h4>
+             movieName.map(movie => (
+               <Movie movie={movie} 
+                 key={movie.imdbID} 
+                 savedMovie={props.db[movie.imdbID]} 
+                 likedMovie={props.likedMovie}
+                 dislikedMovie={props.dislikedMovie}
+               />
+             ))
+            }
+          </div>
          )
-        }
-      {/* </h4> */}
+      }  
       
     </div>
   )

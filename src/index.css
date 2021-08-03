@@ -25,7 +25,8 @@ code {
 }
 
 #title {
-  width: 70%;
+  /* width: 70%;
+  font-size: */
 }
 
 #likes {
@@ -48,9 +49,12 @@ code {
 .card {
   padding-top: 5%;
   border-style: solid;
-  /* background-color: #63d471;
-  border-color: #6441a5; */
+  text-align: center;
 
-  /* transition: 0.3s; */
   width: 90%;
+}
+
+.see:focus {
+  border: none;
+  background: none;
 }
