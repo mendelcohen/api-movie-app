@@ -1,13 +1,11 @@
 import React, {useState} from 'react'
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa'
 import apiKey from "./apiKey"
-
 import Movie from "./Movie"
 
 const MovieApi = (props) => {
   const [ searchName, setSearchName ] = useState("")
-  const [ movieName, setMovieName ] = useState([])
-  // const [ error, setError ] = useState("")
+  const [ movieResults, setMovieResults ] = useState([])
 
   const searchTitle = (e) => {
     e.preventDefault()
@@ -20,13 +18,12 @@ const MovieApi = (props) => {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
-        const data = response.Search;
-        data !== undefined ? setMovieName(data) : setMovieName("No Results Found")
+        console.log(response)
+        const data = response.Search
+        data ? setMovieResults(data) : setMovieResults("No Results Found")
       })
       .catch(err => {
         console.error(err);
-        
       });
     }
 
@@ -37,17 +34,14 @@ const MovieApi = (props) => {
   
   return (
     <div>
-      
       <h1 style={{textAlign: "center"}}>Movie Ratings</h1>
       <table className="table">
-      <thead>
-       
+        <thead>
           <tr >
             <td className="table-head" id="title">Movie Title</td>
             <td className="table-head" id="likes">Likes<br/><FaThumbsUp className="like-icon"/></td>
-            <td className="table-head" id="dislikes">Dislikes<br/><FaThumbsDown className="like-icon"/></td>
+            <td className="table-head" id="dislikes">Dislikes<br/><FaThumbsDown className="dislike-icon"/></td>
           </tr>
-        
         </thead>
         <tbody>
           {
@@ -78,27 +72,27 @@ const MovieApi = (props) => {
         
       </form>
       <br/>
-   
       {
-       movieName === "No Results Found" ? 
+       movieResults === "No Results Found" ? 
          (
-          <div style={{textAlign: "center"}}>{movieName}</div>
+          <div style={{textAlign: "center"}}>{movieResults}</div>
          ) : (
-          <div style={{display: "grid", gridTemplateColumns: "auto auto auto auto"}}>
+          <div className="cards" >
             {
-             movieName.map(movie => (
+             movieResults.map(movie => (
+             
                <Movie movie={movie} 
                  key={movie.imdbID} 
                  savedMovie={props.db[movie.imdbID]} 
                  likedMovie={props.likedMovie}
                  dislikedMovie={props.dislikedMovie}
                />
+               
              ))
             }
           </div>
          )
       }  
-      
     </div>
   )
 }

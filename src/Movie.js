@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
-import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
+import { FaThumbsUp, FaThumbsDown, FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import apiKey from "./apiKey"
 
   function Movie({movie, savedMovie, likedMovie, dislikedMovie}) {
@@ -32,29 +31,52 @@ import apiKey from "./apiKey"
     } 
 
     return (
-      <div>
-        <div className="card">Movie: {movie.Title}, {movie.Year}
-        <br/>
-          <button style={{border: "none", background: "none"}} onClick={handleClick}>{show === false ? (<TiArrowSortedDown/>) : ("")}</button>
-        {show && (
-          <div>
-            
-            <p>Title: {movieData.Title}</p>
-            <p>Genre: {movieData.Genre}</p>
-            <p>Plot: {movieData.Plot}</p>
-            <p>Director: {movieData.Director}</p>
-            <p>Release Year: {movieData.Year} </p>
-              <div className="like" onClick={() => likedMovie(movie)}>
-                <FaThumbsUp className="like-icon"/><span>{savedMovie ? savedMovie.likes : 0}</span>
-              </div>
-            
-              <div className="like" onClick={() => dislikedMovie(movie)}>
-                <FaThumbsDown className="like-icon"/><span>{savedMovie ? savedMovie.dislikes : 0}</span>
-              </div>
-              <button style={{border: "none", background: "none"}} onClick={handleClick}><TiArrowSortedUp/></button>
-          </div>
-          )
-        }
+      <div >
+        <div className="card">
+          <h3>Title: <br/>
+            <span>"{movie.Title}"</span>
+          </h3>
+          <h4>Release Year: <br/>
+            <span>{movie.Year}</span>
+          </h4>
+
+          {
+           show === false ? (
+            <button onClick={handleClick}>
+              <FaAngleDown/>
+            </button>
+            ) : ( 
+            <div>
+              <p>Genre: <br/>
+                <span>{movieData.Genre}</span>
+              </p>
+              <p>Plot: <br/>
+                <span>{movieData.Plot}</span>
+              </p>
+              <p>Director: <br/>
+                <span>{movieData.Director}</span>
+              </p>
+              <p>Actors: <br/> 
+                <span>{movieData.Actors}</span>
+              </p>
+              <p>imdb Rating: <br/> 
+                <span>{movieData.imdbRating}</span>
+              </p>
+              <p>imdb Votes: <br/> 
+                <span>{movieData.imdbVotes}</span>
+              </p>
+              <p>
+                <FaThumbsUp className="like-icon" onClick={() => likedMovie(movie)}/><span> {savedMovie ? savedMovie.likes : 0}</span>
+             
+                <FaThumbsDown className="dislike-icon" onClick={() => dislikedMovie(movie)}/><span> {savedMovie ? savedMovie.dislikes : 0}</span>
+              </p>
+              <button onClick={handleClick}>
+                <FaAngleUp/>
+              </button>
+            </div>
+            )
+          }
+          
         </div>
       </div>
     )
