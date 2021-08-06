@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import MovieApi from "./MovieApi"
+import MovieRatings from "./MovieRatings"
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Navbar from "./navbar"
 
 function App() {
   
@@ -48,9 +51,17 @@ function App() {
   }
 
   return (
-    <div>
-      <MovieApi db={db} likedMovie={likedMovie} dislikedMovie={dislikedMovie}/>
-    </div>
+    
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route path='/MovieApi' render={props => <MovieApi {...props} db={db} likedMovie={likedMovie} dislikedMovie={dislikedMovie}/>}/>
+          <Route path='/MovieRatings' render={props => <MovieRatings {...props} db={db}/>}/>
+        </Switch>
+        
+      </Router>
+      
+    
   );
 }
 

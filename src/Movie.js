@@ -33,36 +33,36 @@ import apiKey from "./apiKey"
     return (
       <div >
         <div className="card">
-          <h3>Title: <br/>
+          <h2>Title <br/>
             <span>"{movie.Title}"</span>
-          </h3>
-          <h4>Release Year: <br/>
+          </h2>
+          <p>Release Year <br/>
             <span>{movie.Year}</span>
-          </h4>
+          </p>
 
           {
            show === false ? (
-            <button onClick={handleClick}>
+            <button className="button" onClick={handleClick}>
               <FaAngleDown/>
             </button>
             ) : ( 
             <div>
-              <p>Genre: <br/>
+              <p>Genre <br/>
                 <span>{movieData.Genre}</span>
               </p>
-              <p>Plot: <br/>
+              <p>Plot <br/>
                 <span>{movieData.Plot}</span>
               </p>
-              <p>Director: <br/>
+              <p>Director <br/>
                 <span>{movieData.Director}</span>
               </p>
-              <p>Actors: <br/> 
+              <p>Actors <br/> 
                 <span>{movieData.Actors}</span>
               </p>
-              <p>imdb Rating: <br/> 
+              <p>imdb Rating <br/> 
                 <span>{movieData.imdbRating}</span>
               </p>
-              <p>imdb Votes: <br/> 
+              <p>imdb Votes <br/> 
                 <span>{movieData.imdbVotes}</span>
               </p>
               <p>
@@ -70,13 +70,12 @@ import apiKey from "./apiKey"
              
                 <FaThumbsDown className="dislike-icon" onClick={() => dislikedMovie(movie)}/><span> {savedMovie ? savedMovie.dislikes : 0}</span>
               </p>
-              <button onClick={handleClick}>
+              <button className="button" onClick={handleClick}>
                 <FaAngleUp/>
               </button>
             </div>
             )
           }
-          
         </div>
       </div>
     )

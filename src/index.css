@@ -13,44 +13,72 @@ code {
     monospace;
 }
 
+/* Movie Table and Search */
+
+h1,
+h2,
+form,
+.rating,
+#no-results {
+  text-align: center;
+}
+
 .table {
   width: 60%;
-  border: 2px solid black;
+  border: 4px solid black;
   margin-left: 20%;
   margin-right: 20%;
+  margin-bottom: 3%;
 }
+
 .table-head {
+  width: 20%;
+  background: rgb(220, 220, 220);
   border: 2px solid black;
+  padding: 1%;
   text-align: center;
+  font-size: 1.5vw;
   font-weight: bold;
 }
 
-/* #title { 
-  width: 70%;
-  font-size: 
-} */
-
-#likes {
-  width: 15%;
+#title {
+  width: 60%;
 }
 
-#dislikes {
-  width: 15%;
+.likes-icon,
+.dislikes-icon {
+  color: green;
+  font-size: x-large;
 }
 
-.movie {
-  border: 2px solid black;
+.dislikes-icon {
+  color: red;
 }
 
+.movie,
 .rating {
   border: 2px solid black;
-  text-align: center;
+  padding: 1%;
+  font-size: 1.25vw;
+  font-weight: 600;
 }
+
+input,
+form > button,
+#no-results {
+  font-size: x-large;
+}
+
+input {
+  margin-right: 0.2cm;
+}
+
+/* Movie Data */
 
 .cards {
   margin-top: 2%;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   grid-gap: 40px;
@@ -64,40 +92,33 @@ code {
   border-radius: 25px;
   background-color: rgb(231, 225, 225);
   text-align: center;
-
   width: 80%;
 }
 
-.card > button {
+.button {
   border: none;
   background: none;
   font-size: 25px;
   color: green;
 }
 
-.card > h3,
-h4 {
-  font-style: italic;
-  /* font-size: 1vmax; */
-  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
-}
-
-.card > h3 > span,
-h4 > span {
-  font-style: normal;
+.card {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.card > h2 > span {
+  font-weight: normal;
+}
+
+.card > p,
 .card > div > p {
-  font-style: italic;
+  font-weight: bold;
   font-size: 1vmax;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.card > p > span,
 .card > div > p > span {
-  font-style: normal;
-  font-size: 1vmax;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: normal;
 }
 
 .like-icon {
@@ -116,8 +137,5 @@ h4 > span {
 }
 
 .card > div > button {
-  border: none;
-  background: none;
-  font-size: 25px;
   color: red;
 }

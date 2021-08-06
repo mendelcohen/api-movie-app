@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa'
 import apiKey from "./apiKey"
 import Movie from "./Movie"
 
@@ -34,13 +33,13 @@ const MovieApi = (props) => {
   
   return (
     <div>
-      <h1 style={{textAlign: "center"}}>Movie Ratings</h1>
+      {/* <h1>Movie Ratings</h1>
       <table className="table">
         <thead>
           <tr >
             <td className="table-head" id="title">Movie Title</td>
-            <td className="table-head" id="likes">Likes<br/><FaThumbsUp className="like-icon"/></td>
-            <td className="table-head" id="dislikes">Dislikes<br/><FaThumbsDown className="dislike-icon"/></td>
+            <td className="table-head">Likes &nbsp;&nbsp;<FaThumbsUp className="likes-icon"/></td>
+            <td className="table-head">Dislikes &nbsp;&nbsp;<FaThumbsDown className="dislikes-icon"/></td>
           </tr>
         </thead>
         <tbody>
@@ -54,44 +53,37 @@ const MovieApi = (props) => {
            ))
           }
         </tbody>
-      </table>
+      </table> */}
 
-      <h2 style={{textAlign: "center"}}>Search for a movie here and rate it</h2>
-      
-      <form style={{textAlign: "center"}} onSubmit={searchTitle}>
-      
-      <input 
-        style={{fontSize: "large", marginRight: "0.2cm"}}
-        type="text"
-        name="searchName"
-        placeholder="Search Movie Title"
-        value={searchName}
-        onChange={handleChange}
+      <h2>Search for a movie and rate it</h2>
+      <form onSubmit={searchTitle}>
+        <input 
+          type="text"
+          name="searchName"
+          placeholder="Search Movie Title"
+          value={searchName}
+          onChange={handleChange}
         />
-        <button style={{fontSize: "large"}}>Search</button>
-        
+        <button>Search</button>
       </form>
       <br/>
       {
-       movieResults === "No Results Found" ? 
-         (
-          <div style={{textAlign: "center"}}>{movieResults}</div>
-         ) : (
-          <div className="cards" >
-            {
-             movieResults.map(movie => (
-             
-               <Movie movie={movie} 
-                 key={movie.imdbID} 
-                 savedMovie={props.db[movie.imdbID]} 
-                 likedMovie={props.likedMovie}
-                 dislikedMovie={props.dislikedMovie}
-               />
-               
-             ))
-            }
-          </div>
-         )
+       movieResults === "No Results Found" ? (
+        <div id="no-results">{movieResults}</div>
+        ) : (
+        <div className="cards" >
+          {
+           movieResults.map(movie => (
+            <Movie movie={movie} 
+              key={movie.imdbID} 
+              savedMovie={props.db[movie.imdbID]} 
+              likedMovie={props.likedMovie}
+              dislikedMovie={props.dislikedMovie}
+            />
+           ))
+          }
+        </div>
+        )
       }  
     </div>
   )
