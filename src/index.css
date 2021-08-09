@@ -13,6 +13,45 @@ code {
     monospace;
 }
 
+/* Navbar */
+
+.navbar {
+  background: #63d471;
+  height: 85px;
+  display: flex;
+}
+
+.nav-button {
+  font-size: x-large;
+  font-weight: bold;
+  position: absolute;
+  right: 30px;
+  margin-right: 2%;
+  border-radius: 8px;
+  background: #808080;
+  padding: 14px 22px;
+  color: #000000;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+/* About Page */
+
+.welcome {
+  margin-top: 5%;
+  text-align: center;
+}
+
+.welcome > button {
+  border: none;
+  background: none;
+  font-size: 400px;
+  color: green;
+}
+
 /* Movie Table and Search */
 
 h1,

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import Home from "./Home"
 import MovieApi from "./MovieApi"
 import MovieRatings from "./MovieRatings"
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -7,6 +8,7 @@ import Navbar from "./navbar"
 function App() {
   
   const [ db, setDb ] = useState({})
+  const [showNav, setShowNav] = useState(sessionStorage.getItem("showNav"))
 
   useEffect(() => {
     const keys = Object.keys(localStorage)
@@ -52,17 +54,17 @@ function App() {
 
   return (
     
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route path='/MovieApi' render={props => <MovieApi {...props} db={db} likedMovie={likedMovie} dislikedMovie={dislikedMovie}/>}/>
-          <Route path='/MovieRatings' render={props => <MovieRatings {...props} db={db}/>}/>
-        </Switch>
+    <Router>
+    <Navbar showNav={showNav} setShowNav={setShowNav}/>
+      <Switch>
         
-      </Router>
+        <Route exact path='/' render={props => <Home {...props} showNav={showNav} setShowNav={setShowNav}/>}/>
       
-    
-  );
+        <Route path='/MovieApi' render={props => <MovieApi {...props} db={db} likedMovie={likedMovie} dislikedMovie={dislikedMovie} showNav={showNav} setShowNav={setShowNav}/>}/>
+        <Route path='/MovieRatings' render={props => <MovieRatings {...props} db={db}/>}/>
+      </Switch>
+    </Router>
+  )
 }
 
 export default App;

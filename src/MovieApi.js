@@ -5,7 +5,7 @@ import Movie from "./Movie"
 const MovieApi = (props) => {
   const [ searchName, setSearchName ] = useState("")
   const [ movieResults, setMovieResults ] = useState([])
-
+  
   const searchTitle = (e) => {
     e.preventDefault()
     fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?s=${searchName}&p=1`, {
@@ -33,29 +33,15 @@ const MovieApi = (props) => {
   
   return (
     <div>
-      {/* <h1>Movie Ratings</h1>
-      <table className="table">
-        <thead>
-          <tr >
-            <td className="table-head" id="title">Movie Title</td>
-            <td className="table-head">Likes &nbsp;&nbsp;<FaThumbsUp className="likes-icon"/></td>
-            <td className="table-head">Dislikes &nbsp;&nbsp;<FaThumbsDown className="dislikes-icon"/></td>
-          </tr>
-        </thead>
-        <tbody>
-          {
-           Object.keys(props.db).map(key => (
-            <tr key={key}>
-              <td className="movie">{props.db[key].title}</td>
-              <td className="rating">{props.db[key].likes}</td>
-              <td className="rating">{props.db[key].dislikes}</td>
-            </tr>
-           ))
-          }
-        </tbody>
-      </table> */}
-
-      <h2>Search for a movie and rate it</h2>
+      <h2>
+        {
+         Object.keys(props.db).length > 0 ? (
+          "Search for a movie and rate it"
+          ) : (
+          "Be the first to rate a movie"
+         )
+        }
+      </h2>
       <form onSubmit={searchTitle}>
         <input 
           type="text"

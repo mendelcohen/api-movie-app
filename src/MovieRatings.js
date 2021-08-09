@@ -4,7 +4,15 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa'
 const MovieRatings = (props) => {
   return (
     <div>
-      <h1>Movie Ratings</h1>
+      <h1>
+        {
+         Object.keys(props.db).length > 0 ? (
+          "Movie Ratings"
+          ) : (
+          "Be the first to rate a movie"
+         )
+        }
+      </h1>
       <table className="table">
         <thead>
           <tr >
