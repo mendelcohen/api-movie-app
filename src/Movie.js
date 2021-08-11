@@ -1,25 +1,29 @@
 import React, {useState} from 'react'
 import { FaThumbsUp, FaThumbsDown, FaAngleDown, FaAngleUp } from 'react-icons/fa';
-import apiKey from "./apiKey"
 
   function Movie({movie, savedMovie, likedMovie, dislikedMovie}) {
-
+    
     const [ show, setShow ] = useState(false)
     const [ movieData, setMovieData ] = useState([])
+    
+    const handleClick = (e) => {
+      e.preventDefault()
+      let movieId = movie.imdbID
+      const params = {
+        id: movieId
+      }
 
-    const handleClick = () => {
       show === false ? (
-        fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?i=${movie.imdbID}`, {
-	        "method": "GET",
-	        "headers": {
-	   	      "x-rapidapi-key": apiKey,
-		        "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
-	        }
+        fetch("/movie", {
+          params,
+          method: "POST",
+          body: JSON.stringify(params),
+	        headers: {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}
         })
         .then(response => response.json())
-        .then(response => {
-	        console.log(response);
-          setMovieData(response)
+        .then(object => {
+	        console.log(object);
+          setMovieData(object)
           setShow(true)
         })
        .catch(err => {

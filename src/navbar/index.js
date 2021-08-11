@@ -34,7 +34,7 @@ const Navbar = (props) => {
       <NavLink to='/MovieRatings' >
         Movies
       </NavLink>
-      
+    
       <NavBtn >
       <button className="nav-button" onClick={handleExit} >Exit
       </button>

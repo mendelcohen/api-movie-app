@@ -6,10 +6,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from "./navbar"
 
 function App() {
-  
+
   const [ db, setDb ] = useState({})
   const [showNav, setShowNav] = useState(sessionStorage.getItem("showNav"))
-
+  
   useEffect(() => {
     const keys = Object.keys(localStorage)
     const data = {}
@@ -53,13 +53,10 @@ function App() {
   }
 
   return (
-    
     <Router>
     <Navbar showNav={showNav} setShowNav={setShowNav}/>
       <Switch>
-        
         <Route exact path='/' render={props => <Home {...props} showNav={showNav} setShowNav={setShowNav}/>}/>
-      
         <Route path='/MovieApi' render={props => <MovieApi {...props} db={db} likedMovie={likedMovie} dislikedMovie={dislikedMovie} showNav={showNav} setShowNav={setShowNav}/>}/>
         <Route path='/MovieRatings' render={props => <MovieRatings {...props} db={db}/>}/>
       </Switch>

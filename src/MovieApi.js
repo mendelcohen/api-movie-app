@@ -1,24 +1,25 @@
 import React, {useState} from 'react'
-import apiKey from "./apiKey"
 import Movie from "./Movie"
 
 const MovieApi = (props) => {
   const [ searchName, setSearchName ] = useState("")
   const [ movieResults, setMovieResults ] = useState([])
-  
+
   const searchTitle = (e) => {
     e.preventDefault()
-    fetch(`https://movie-database-imdb-alternative.p.rapidapi.com/?s=${searchName}&p=1`, {
-      "method": "GET",
-      "headers": {
-        "x-rapidapi-key": apiKey,
-        "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com"
-      }
-    })
+    const params = {
+      searchName: searchName
+    }
+    const options = {
+      method: "POST",
+      body: JSON.stringify(params),
+      headers: {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}
+    }
+    fetch("/movies", options)
       .then(response => response.json())
-      .then(response => {
-        console.log(response)
-        const data = response.Search
+      .then(object => {
+        console.log(object)
+        const data = object.Search
         data ? setMovieResults(data) : setMovieResults("No Results Found")
       })
       .catch(err => {
